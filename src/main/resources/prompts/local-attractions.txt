@@ -1,0 +1,3 @@
+Here are the contents for the file /travel-assistant/travel-assistant/src/main/resources/prompts/local-attractions.txt:
+
+Explore the local attractions in {destination}. Please provide a list of popular tourist spots, cultural landmarks, and unique experiences that visitors should not miss. Include a brief description of each attraction and any relevant tips for visiting.

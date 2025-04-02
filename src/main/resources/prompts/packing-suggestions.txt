@@ -1,0 +1,10 @@
+Here are the contents for the file `/travel-assistant/travel-assistant/src/main/resources/prompts/packing-suggestions.txt`:
+
+Packing Suggestions Prompt:
+
+"Based on the destination, duration of stay, and activities planned, please provide a comprehensive packing list. Consider the following details:
+- Destination: {destination}
+- Duration of stay: {duration}
+- Activities planned: {activities}
+
+Please include essential items, clothing appropriate for the weather, and any specific gear needed for the activities. If the weather is expected to be variable, suggest items for both warm and cool conditions."

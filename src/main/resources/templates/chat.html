@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Assistant Chat</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/chat.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="sidebar">
+        <div class="logo">
+          <h2><i class="fas fa-globe-americas"></i> Travel Assistant</h2>
+        </div>
+        <div class="new-chat">
+          <button id="new-chat-btn">
+            <i class="fas fa-plus"></i> New Chat
+          </button>
+        </div>
+        <div class="chat-history" id="chat-history">
+          <!-- Chat history will be populated here -->
+        </div>
+        <div class="user-info">
+          <p>User ID: <span id="user-id">user123</span></p>
+          <button id="change-user-btn" class="small-button">
+            <i class="fas fa-user-edit"></i> Change User
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-container">
+        <div class="chat-header">
+          <h3>Chat with Travel Assistant</h3>
+          <div class="connection-status">
+            <span id="status-indicator" class="connected"></span>
+            <span id="status-text">Connected</span>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <div class="message assistant">
+            <div class="message-content">
+              <p>
+                Hello! I'm your travel assistant. How can I help you plan your
+                next adventure?
+              </p>
+            </div>
+            <div class="message-time">Just now</div>
+          </div>
+        </div>
+
+        <div class="suggestions" id="suggestions">
+          <p>Try asking:</p>
+          <div class="suggestion-chips">
+            <button class="suggestion-chip">
+              Where should I travel in summer?
+            </button>
+            <button class="suggestion-chip">
+              What should I pack for Japan?
+            </button>
+            <button class="suggestion-chip">Top attractions in Rome?</button>
+          </div>
+        </div>
+
+        <div class="chat-input">
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Type your message here..."
+          />
+          <button id="send-button"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="user-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Change User</h3>
+        <input type="text" id="new-user-id" placeholder="Enter new user ID" />
+        <button id="save-user-btn">Save</button>
+      </div>
+    </div>
+
+    <script src="/js/chat.js"></script>
+  </body>
+</html>
