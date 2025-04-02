@@ -1,4 +1,4 @@
-/* Base styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -18,7 +18,6 @@ body {
     padding: 0 20px;
 }
 
-/* Header styles */
 header {
     text-align: center;
     padding: 60px 0;
@@ -33,7 +32,6 @@ header h1 {
     margin-bottom: 10px;
 }
 
-/* Main content styles */
 .intro {
     text-align: center;
     max-width: 800px;
@@ -62,7 +60,6 @@ header h1 {
     background-color: #2980b9;
 }
 
-/* Features section */
 .features {
     display: flex;
     flex-wrap: wrap;
@@ -84,7 +81,6 @@ header h1 {
     color: #3498db;
 }
 
-/* Footer styles */
 footer {
     text-align: center;
     padding: 20px 0;
@@ -93,7 +89,6 @@ footer {
     color: #777;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
     .features {
         flex-direction: column;

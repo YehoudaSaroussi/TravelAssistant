@@ -20,11 +20,6 @@ public class ContextManager {
         this.conversationContext = new HashMap<>();
     }
 
-    // public void startNewConversation(String userId) {
-    // conversationContext.put(userId, new Conversation());
-    // this.currentContext = "";
-    // }
-
     public Conversation getConversation(String userId) {
         return conversationContext.computeIfAbsent(userId, k -> new Conversation());
     }

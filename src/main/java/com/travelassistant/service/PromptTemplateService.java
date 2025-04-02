@@ -43,8 +43,4 @@ public class PromptTemplateService {
         return finalPrompt;
     }
 
-    // Keep the original method for backward compatibility
-    // public String formatPrompt(String template, Object... args) {
-    // return String.format(template, args);
-    // }
 }

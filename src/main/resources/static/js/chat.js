@@ -1,4 +1,4 @@
-// DOM Elements
+
 const chatMessages = document.getElementById('chat-messages');
 const messageInput = document.getElementById('message-input');
 const sendButton = document.getElementById('send-button');
@@ -9,7 +9,6 @@ const statusIndicator = document.getElementById('status-indicator');
 const statusText = document.getElementById('status-text');
 const userIdElement = document.getElementById('user-id');
 
-// Generate a random user ID or use from localStorage
 let userId = localStorage.getItem('travelAssistantUserId');
 if (!userId) {
     userId = 'user_' + Math.random().toString(36).substring(2, 10);
@@ -17,33 +16,26 @@ if (!userId) {
 }
 userIdElement.textContent = userId;
 
-// Store conversations per user
 let conversations = [];
 
-// Function to get user-specific chat history
 function getUserConversations(uid) {
     return JSON.parse(localStorage.getItem(`chatHistory_${uid}`) || '[]');
 }
 
-// Load current user's conversations
 conversations = getUserConversations(userId);
 updateChatHistorySidebar();
 
-// Display the active conversation or most recent one when page loads
 if (conversations.length > 0) {
-    // Find the active (not completed) conversation or use the most recent one
     const activeConversationIndex = conversations.findIndex(conv => !conv.isCompleted);
     if (activeConversationIndex >= 0) {
         loadConversation(activeConversationIndex);
     } else {
-        loadConversation(0); // Load most recent conversation
+        loadConversation(0);
     }
 } else {
-    // If no conversations, show welcome message
     addMessageToChat('assistant', 'Hello! I\'m your travel assistant. How can I help you plan your next adventure?');
 }
 
-// Event Listeners
 sendButton.addEventListener('click', sendMessage);
 messageInput.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
@@ -58,9 +50,7 @@ document.addEventListener('click', e => {
     }
 });
 
-// Add this after your existing event listeners
 
-// User switching functionality
 const changeUserBtn = document.getElementById('change-user-btn');
 const userModal = document.getElementById('user-modal');
 const closeModalBtn = document.querySelector('.close');
@@ -85,33 +75,26 @@ window.addEventListener('click', (event) => {
 saveUserBtn.addEventListener('click', () => {
     const newUserId = newUserIdInput.value.trim();
     if (newUserId) {
-        // Save new user ID
         userId = newUserId;
         localStorage.setItem('travelAssistantUserId', userId);
         userIdElement.textContent = userId;
         
-        // Load conversations for this user
         conversations = getUserConversations(userId);
         
-        // Clear current chat
         chatMessages.innerHTML = '';
         
-        // Update chat history sidebar
         updateChatHistorySidebar();
         
         userModal.style.display = 'none';
         
-        // If no conversations for this user, show welcome message
         if (conversations.length === 0) {
             addMessageToChat('assistant', 'Hello! I\'m your travel assistant. How can I help you plan your trip today?');
         } else {
-            // Otherwise load the most recent conversation
             loadConversation(0);
         }
     }
 });
 
-// Initialize with default suggestions
 const defaultSuggestions = [
     "Where should I travel in summer?",
     "What should I pack for Japan?",
@@ -120,27 +103,19 @@ const defaultSuggestions = [
 ];
 updateSuggestions(defaultSuggestions);
 
-// Check API connection
-checkApiConnection();
 
-// Functions
 function sendMessage() {
     const message = messageInput.value.trim();
     if (message === '') return;
     
-    // Add user message to chat
     addMessageToChat('user', message);
     
-    // Clear input
     messageInput.value = '';
     
-    // Show typing indicator
     showTypingIndicator();
     
-    // Send to API
     fetchResponse(message);
     
-    // Save to chat history
     saveMessageToHistory('user', message);
 }
 
@@ -164,23 +139,18 @@ function fetchResponse(message) {
         return response.json();
     })
     .then(data => {
-        // Remove typing indicator
         removeTypingIndicator();
         
-        // Add assistant response to chat
         addMessageToChat('assistant', data.responseMessage);
         
-        // Update suggestions
         if (data.suggestions) {
             updateSuggestions(data.suggestions);
         } else {
             updateSuggestions(defaultSuggestions);
         }
         
-        // Save to chat history
         saveMessageToHistory('assistant', data.responseMessage);
         
-        // Update connection status
         updateConnectionStatus(true);
     })
     .catch(error => {
@@ -198,7 +168,6 @@ function addMessageToChat(sender, content) {
     const messageContent = document.createElement('div');
     messageContent.classList.add('message-content');
     
-    // Clean up markdown formatting
     const formattedContent = content
         .replace(/\n/g, '<br>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -214,7 +183,6 @@ function addMessageToChat(sender, content) {
     
     chatMessages.appendChild(messageElement);
     
-    // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
@@ -234,7 +202,6 @@ function showTypingIndicator() {
     typingElement.appendChild(typingIndicator);
     chatMessages.appendChild(typingElement);
     
-    // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
@@ -273,21 +240,8 @@ function updateConnectionStatus(connected, errorMessage = '') {
     }
 }
 
-function checkApiConnection() {
-    fetch('/api/test/gemini?message=Hello')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('API connection failed');
-            }
-            updateConnectionStatus(true);
-        })
-        .catch(error => {
-            updateConnectionStatus(false, error.message);
-        });
-}
 
 function saveMessageToHistory(sender, content) {
-    // Get current conversation or create new one
     let currentConversation = conversations[0];
     
     if (!currentConversation || currentConversation.isCompleted) {
@@ -301,22 +255,18 @@ function saveMessageToHistory(sender, content) {
         conversations.unshift(currentConversation);
     }
     
-    // Add message to conversation
     currentConversation.messages.push({
         sender: sender,
         content: content,
         timestamp: new Date().toISOString()
     });
     
-    // Update title based on first message if it's a user message
     if (sender === 'user' && currentConversation.messages.length === 1) {
         currentConversation.title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
     }
     
-    // Save to localStorage with user-specific key
     localStorage.setItem(`chatHistory_${userId}`, JSON.stringify(conversations));
     
-    // Update sidebar
     updateChatHistorySidebar();
 }
 
@@ -342,41 +292,30 @@ function updateChatHistorySidebar() {
 function loadConversation(index) {
     const conversation = conversations[index];
     
-    // Clear chat
     chatMessages.innerHTML = '';
     
-    // Add messages
     conversation.messages.forEach(msg => {
         addMessageToChat(msg.sender, msg.content);
     });
     
-    // Mark as current conversation
     conversations.forEach(conv => conv.isCompleted = true);
     conversation.isCompleted = false;
     
-    // Save to localStorage with user-specific key
     localStorage.setItem(`chatHistory_${userId}`, JSON.stringify(conversations));
     
-    // Update sidebar
     updateChatHistorySidebar();
 }
 
 function startNewChat() {
-    // Mark all conversations as completed
     conversations.forEach(conv => conv.isCompleted = true);
     
-    // Clear chat
     chatMessages.innerHTML = '';
     
-    // Add welcome message
     addMessageToChat('assistant', 'Hello! I\'m your travel assistant. How can I help you plan your next adventure?');
     
-    // Update suggestions
     updateSuggestions(defaultSuggestions);
     
-    // Save to localStorage with user-specific key
     localStorage.setItem(`chatHistory_${userId}`, JSON.stringify(conversations));
     
-    // Update sidebar
     updateChatHistorySidebar();
 }

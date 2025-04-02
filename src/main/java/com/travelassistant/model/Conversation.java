@@ -15,6 +15,7 @@ public class Conversation {
 
     private static final int MAX_CONTEXT_LENGTH = 1000;
     private static final int MAX_MESSAGES = 10;
+    private static final int SUMMARY_LENGTH = 200;
 
     public Conversation() {
         this.messages = new ArrayList<>();
@@ -66,8 +67,8 @@ public class Conversation {
             return content;
         }
 
-        // Get first 50 chars as a simple summary
-        String shortSummary = content.substring(0, Math.min(50, content.length()));
+        // Get first chars as a simple summary
+        String shortSummary = content.substring(0, Math.min(SUMMARY_LENGTH, content.length()));
         return shortSummary + "...";
     }
 
