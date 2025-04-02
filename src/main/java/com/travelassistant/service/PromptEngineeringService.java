@@ -38,18 +38,17 @@ public class PromptEngineeringService {
         String promptTemplate = promptTemplateService.getPromptTemplate(promptType);
 
         // Replace placeholders in template with actual values
+
         String destination = extractDestination(userInput);
         if (!destination.isEmpty()) {
             promptTemplate = promptTemplate.replace("{destination}", destination);
         }
 
-        // Extract potential duration from user input
         String duration = extractDuration(userInput);
         if (!duration.isEmpty()) {
             promptTemplate = promptTemplate.replace("{duration}", duration);
         }
 
-        // Extract potential activities from user input
         String activities = extractActivities(userInput);
         if (!activities.isEmpty()) {
             promptTemplate = promptTemplate.replace("{activities}", activities);
